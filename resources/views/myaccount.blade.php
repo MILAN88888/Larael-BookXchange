@@ -8,7 +8,19 @@
                     <div class="accountInfoMain">
 
                         <div class="subTitle editTitle">Edit Account</div>
-                        <form id="profile-form" method="post" action="action.php" enctype="multipart/form-data">
+                        @if(session('accounterror') != null)
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            {{session('accounterror')}}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        @php
+                        Session::forget('aacounterror');
+                        @endphp
+                    @endif
+                    <form id="profile-form" method="post" action="{{route('BookController.getMyAccountUpdate')}}" enctype="multipart/form-data">
+                            @csrf
                             <div class=" ">
 
                                 <img src="{{asset('/upload/users/'.$acdetail->user_image)}}" alt=""
@@ -59,7 +71,7 @@
                                     </div>
                                 </div>
                                 <!--upload profile pic-->
-                                <input hidden name="old_image" value="">
+                                <input hidden name="old_image" value="{{$acdetail->user_image}}">
 
                                 <div class="form-group mt-4 upload-pic upload-profile">
                                     <label for="bookcover" class="form-label">Upload New Profile</label>
@@ -82,7 +94,6 @@
                                         <span class="font-weight-bold">Edit</span>
                                     </button>
                                 </div>
-
                             </div>
                         </form>
                         <div class="text-center w-100 reset-click">
@@ -91,8 +102,8 @@
                                     Password</a></p>
                         </div>
 
-                        <form id="reset-password-form" action="action.php" method="post" autocomplete="off">
-                            {# <div class="subTitle">Password Change</div> #}
+                        <form id="reset-password-form" action="{{route('UserController.updatePassword')}}" method="post" autocomplete="off">
+                            @csrf
                             <div class="row">
                                 <div class="col-md-12 mb-4">
                                     <div class="js-form-message">
@@ -129,4 +140,9 @@
         </div>
     </div>
 </section>
+<style>
+    #reset-password-form {
+        display: none;
+    }
+</style>
 

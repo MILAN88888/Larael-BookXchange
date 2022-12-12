@@ -20,9 +20,12 @@
 		<script src="{{asset('web_asset/assets/owlcarousel/owl.carousel.js')}}"></script>
 		<script src="{{asset('web_asset/assets/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 		<script src="{{asset('web_asset/js/jquery.validate.min.js')}}"></script>
+		<script src="{{asset('web_asset/js/jquery.dataTables.min.js')}}"></script>
 		<script src="{{asset('web_asset/js/signin.js')}}"></script>
 		<script src="{{asset('web_asset/js/addbook.js')}}"></script>
 		<script src="{{asset('web_asset/js/profile.js')}}"></script>
+		<script src="{{asset('web_asset/js/signup.js')}}"></script>
+		<script src="{{asset('web_asset/js/datatable.js')}}"></script>
         <script src="{{asset('web_asset/js/footer.js')}}"></script>
 	</body>
 </html>

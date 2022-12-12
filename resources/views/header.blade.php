@@ -10,6 +10,8 @@
 		<link href="{{asset('web_asset/assets/css/style.css')}}" rel="stylesheet">
 		<link href="{{asset('web_asset/css/addbook.css')}}" rel="stylesheet">
 		<link href="{{asset('web_asset/css/about.css')}}" rel="stylesheet">
+		<link href="{{asset('web_asset/css/footer.css')}}" rel="stylesheet">
+		<link href="{{asset('web_asset/css/jquery.dataTables.min.css')}}" rel="stylesheet">
 		<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
 		<script src="https://kit.fontawesome.com/d3540e9bfd.js" crossorigin="anonymous"></script>
@@ -35,12 +37,12 @@
 						<div class="mainMenu pull-right">
 							<ul class="nav nav-pills menu">
 								@if(session('user_id') == 0) 
-								<li class="nav-item"><a href="/bookXchange/home" class="nav-link active" aria-current="page">Home</a></li>	
+								<li class="nav-item"><a href="/bookXchange/home" class="nav-link" aria-current="page">Home</a></li>	
 								<li class="nav-item"><a href="/bookXchange/about" class="nav-link">About</a></li>
 								<li class="nav-item"><a href="/bookXchange/signin" class="nav-link"><i class="fa fa-lock"></i>&nbsp;&nbsp;Sign In</a></li>
 								@else
-								<li class="nav-item"><a href="/bookXchange/dashboard" class="nav-link active" aria-current="page">Dashboard</a></li>
-								<li class="nav-item"><a href="/bookXchange/request" class="nav-link"><i class="fa fa-exchange"
+								<li class="nav-item"><a href="/bookXchange/dashboard" class="nav-link" aria-current="page">Dashboard</a></li>
+								<li class="nav-item"><a href="/bookXchange/bookrequest" class="nav-link"><i class="fa fa-exchange"
                     aria-hidden="true"></i>&nbsp;&nbsp;
                   Request</a></li>
 				  <li class="nav-item"><a href="/bookXchange/addbook" class="nav-link"><i class="fa fa-plus"

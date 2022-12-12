@@ -241,6 +241,7 @@ a:focus {
 }
 .bookBox .bookCoverImg img{
 	height: 340px;
+	width: 250px;
 	object-fit: cover;
 }
 .starRating i{
@@ -520,8 +521,8 @@ label.form-label .required {
 	position:absolute;
 	left: 0px;
 	top: 0px;
-	width: 118px;
-	height: 118px;
+	width: 100px;
+	height: 115px;
 }
 .availBookUsers .userBookBox .userImg img{
 	position:absolute;
@@ -649,6 +650,10 @@ label.form-label .required {
 	height: 80px;
 	width: 60px;
 	object-fit: cover;
+}
+.bookCoverArea img {
+	height: 80px;
+    width: 60px;
 }
 
 /* Responsiveness */

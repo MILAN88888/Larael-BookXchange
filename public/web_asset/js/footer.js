@@ -11,7 +11,7 @@ jQuery(document).ready(function ($) {
       margin: 10,
       navText: ['<span class="slide-prev-nav"><i class="fa fa-angle-left"></i></span>', '<span class="slide-next-nav"><i class="fa fa-angle-right"></i></span>'],
     });
-    $('.All-category').slice(0, 3).show();
+    $('.All-category').slice(0, 2).show();
     $('#loadMore').click(function () {
       $('.All-category:hidden').slice(0, 3).fadeIn(300);
       if ($('.All-category:hidden').length == 0) {

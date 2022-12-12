@@ -27,11 +27,44 @@ Route::get('/bookXchange/signup',[Home::class, 'signup']);
 Route::post('bookXchange/getSignin',[UserController::class, 'getSignin'])->name('UserController.getSignin');
 //Route for signup
 Route::post('bookXchange/getSignUp',[UserController::class, 'getSignUp'])->name('UserController.getSignUp');
+//View book from home page
+Route::get('bookXchange/home/viewbook/{id}', [BookController::class, 'viewBook']);
+//Book review from home page
+Route::get('bookXchange/home/viewbook/bookreview/{id}', [BookController::class, 'bookreview']);
+//search book
+Route::get('/bookXchange/home/searchbook', [BookController::class, 'searchBook'])->name('BookController.searchbookhome');
 //middleware authentication 
 Route::group(['middleware' => 'user_auth'], function() {
     Route::get('/bookXchange/dashboard',[DashboardController::class, 'dashboard']);
     Route::get('/bookXchange/logout',[UserController::class, 'logout']);
     Route::get('/bookXchange/addbook', [BookController::class, 'addbook']);
     Route::get('/bookXchange/myaccount', [UserController::class, 'myaccount']);
-   
+    //Route for adding new books.
+    Route::post('/bookXchange/getAddBook', [BookController::class, 'getAddBook'])->name('BookController.getAddBook');
+    //Route for my books.
+    Route::get('/bookXchange/myaccount/mybook', [BookController::class, 'getMyBook']);
+    //Route for update account detail
+    Route::post('/bookXchange/myaccount/getMyAccountUpdate', [UserController::class, 'getMyAccountUpdate'])->name('BookController.getMyAccountUpdate');
+    //Route Password
+    Route::post('/bookXchange/myaccount/updatePassword', [UserController::class, 'updatePassword'])->name('UserController.updatePassword');
+    //Route lending history
+    Route::get('/bookXchange/myaccount/lendingHistory', [BookController::class, 'lendingHistory']);
+    //Route lending borrows
+    Route::get('/bookXchange/myaccount/borrows', [BookController::class, 'borrows']);
+    //Route wish list
+    Route::get('/bookXchange/myaccount/wishlist', [BookController::class, 'wishlist']);
+    //Route delete wishlist
+    Route::get('/bookXchange/dashboard/myaccount/deletewishlist/{id}', [BookController::class, 'getDeleteWishList']);
+    //Route book request
+    Route::get('/bookXchange/bookrequest', [BookController::class, 'bookRequest']);
+    //Route view book
+    Route::get('bookXchange/dashboard/viewbook/{id}', [BookController::class, 'viewBook']);
+    //Book review from home page
+    Route::get('bookXchange/dashboard/viewbook/bookreview/{id}', [BookController::class, 'bookreview']);
+    //search book
+    Route::get('/bookXchange/dashboard/searchbook', [BookController::class, 'searchBook'])->name('BookController.searchbook');
+    //view edit book
+    Route::get('/bookXchange/dashboard/myaccount/editbook/{id}', [BookController::class, 'getEditBook']);
+    //get edit book
+    Route::post('/bookXchange/dashboard/myaccount/updateeditbook', [BookController::class, 'updateEditBook'])->name('BookController.updateeditbook');
 });

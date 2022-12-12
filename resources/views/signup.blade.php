@@ -26,7 +26,7 @@
 								Session::forget('signuperror');
 								@endphp
 							@endif
-							<form id="signup-form" action="{{route('UserController.getSignUp')}}" method="post" enctype="multipart/form-data" >
+							<form id="register-form" action="{{route('UserController.getSignUp')}}" method="post" enctype="multipart/form-data" >
 								@csrf
 								<div class="row">
 
@@ -76,7 +76,7 @@
 										<div class="input-group">
 											<div class="input-file-container">
 												<label for="my-file" class="form-label mb-2">Upload Photo</label>
-												<input class="input-file" name="user_img" id="my-file" type="file">
+												<input class="input-file" name="user_img" id="user_img" type="file">
 												
 											</div>
 										</div>
@@ -99,7 +99,7 @@
 
 									<!-- Already Registered -->
 									<div class="text-center w-100 ">
-										<p class="text-muted font-weight-bold" style="font-size: 16px;">Already Registered? <a href="login.html" class="text-primary ml-2">Login</a></p>
+										<p class="text-muted font-weight-bold" style="font-size: 16px;">Already Registered? <a href="signin" class="text-primary ml-2">Login</a></p>
 									</div>
 
 								</div>

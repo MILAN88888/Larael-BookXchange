@@ -107,17 +107,5 @@ $(document).ready(function () {
         }
     })
 });
-function starmark(item)
-{
-   var count  = item.value;
-   $('#rating').val(count);
-}
-$(document).ready(function () {
-rating = $('#rating').val();
- {
-    for(i=0;i<=rating*2;i++) {
-        $('#rating'+(i)).attr("checked","checked");
-    }
- }
-});
+
 

@@ -31,161 +31,54 @@ Session::forget('user_name');
           </div>
 		</section>
 		<!-- /slider -->
-		<!-- search Area -->
-		<section class="searchArea">
-			<div class="container">
-				<form class="" method="get" action="">
-					<div class="row">
-						<div class="col-sm-6 col-md-3">
-							<div class="mb-3">
-								<input name="s" value="" type="text" class="form-control" id="keyword" placeholder="Book Title">
-							</div>
-						</div>
-
-						<div class="col-sm-6 col-md-3">
-							<div class="mb-3">
-								<select name="product_cat" id="product_cat" class="form-control">
-									<option value="0">Book Category</option>
-									<option class="level-0" value="drama">Drama</option>
-									<option class="level-1" value="inspiration">&nbsp;&nbsp;&nbsp;Inspiration</option>
-									<option class="level-1" value="love-story">&nbsp;&nbsp;&nbsp;Love Story</option>
-									<option class="level-0" value="life-style">Life Style</option>
-									<option class="level-1" value="business">&nbsp;&nbsp;&nbsp;Business</option>
-									<option class="level-1" value="culture">&nbsp;&nbsp;&nbsp;Culture</option>
-									<option class="level-0" value="science">Science</option>
-								</select>
-								<i class="select-arrow fa fa-angle-down"></i>
-							</div>
-						</div>
-
-						<div class="col-sm-6 col-md-3">
-							<div class="mb-3">
-								<select name="book_author" id="book_author" class="form-control">
-									<option value="0">Book Author</option>
-									<option class="level-0" value="atkia">Atkia</option>
-									<option class="level-0" value="brian-owell">Brian O’Well</option>
-									<option class="level-0" value="saifudin-a">Saifudin A.</option>
-									<option class="level-0" value="sarfaraz">Sarfaraz</option>
-								</select>
-								<i class="select-arrow fa fa-angle-down"></i>
-							</div>
-						</div>
-
-						<div class="col-sm-6 col-md-3">
-							<div class="mb-3">
-								<button type="submit" class="btn btn-primary btn-block">
-								<i class="fa fa-search"></i>&nbsp;Find Book</button>
-							</div>
-						</div>
-
-					</div>
-				</form>
-			</div>
-		</section>
-		<!-- /search Area -->
+		@include('searchbox')
 
 		<!-- Recently Added -->
 		<section class="recentlyBook section-padding">
 			<div class="container">
 				<div class="sectionHeading">Recently Added</div>
 				<div class="bookListing">
-					<div class="row">
+					<div class="recent-scroll">
+						@foreach($recentBooks as $recentBook)
 						<div class="col col-md-3">
 							<div class="bookBox">
-								<a href="#">
+								<a href="/bookXchange/dashboard/viewbook/{{$recentBook->id}}">
 									<div class="bookCoverImg">
-										<img src="assets/images/book-21.png">
+										<img src="{{asset('/upload/books/'.$recentBook->book_image)}}">
 									</div>
 									<div class="book-Short-Detail">
-										<h2>The Dead Compendium Volume 3</h2>
+										<h2>{{$recentBook->book_name}}</h2>
 										<div class="author-rating">
 											<span class="starRating">
+												@php 
+												$overRating = 0;
+												@endphp
+												@for ($i = 1; $i <= 5; $i++)
+												@if ($i<=$recentBook->book_rating)
 												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star-o"></i>
-											</span> &nbsp;|&nbsp; Atkia
+												@else
+													@if (($i-$recentBook->book_rating) <= 0.5 && ($i-$recentBook->book_rating) >= 0.1)
+														<i class="fa fa-star-half"></i>
+														@php
+														$overRating = $i;
+														@endphp
+													@endif
+													@if ($i > $overRating)
+													<i class="fa fa-star-o"></i>
+													@endif
+												@endif
+												@endfor
+											</span> &nbsp;|&nbsp; {{$recentBook->author}}
 										</div>
 										<div class="genresArea">
-											<strong>Genres</strong>&nbsp; Drama, Love Story
+											<strong>Genres</strong>&nbsp;{{$recentBook->genre_name}}
 										</div>
 									</div>
 								</a>
 							</div>
 						</div>
-						<div class="col col-md-3">
-							<div class="bookBox">
-								<a href="#">
-									<div class="bookCoverImg">
-										<img src="assets/images/book-22.png">
-									</div>
-									<div class="book-Short-Detail">
-										<h2>See me</h2>
-										<div class="author-rating">
-											<span class="starRating">
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star-o"></i>
-											</span> &nbsp;|&nbsp; Saifudin A.
-										</div>
-										<div class="genresArea">
-											<strong>Genres</strong>&nbsp; Drama, Love Story
-										</div>
-									</div>
-								</a>
-							</div>
-						</div>
-						<div class="col col-md-3">
-							<div class="bookBox">
-								<a href="#">
-									<div class="bookCoverImg">
-										<img src="assets/images/book-23.png">
-									</div>
-									<div class="book-Short-Detail">
-										<h2>The Dead Compendium Volume 3</h2>
-										<div class="author-rating">
-											<span class="starRating">
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star-o"></i>
-											</span> &nbsp;|&nbsp; Atkia
-										</div>
-										<div class="genresArea">
-											<strong>Genres</strong>&nbsp; Drama, Love Story
-										</div>
-									</div>
-								</a>
-							</div>
-						</div>
-						<div class="col col-md-3">
-							<div class="bookBox">
-								<a href="#">
-									<div class="bookCoverImg">
-										<img src="assets/images/book-24.png">
-									</div>
-									<div class="book-Short-Detail">
-										<h2>The Dead Compendium Volume 3</h2>
-										<div class="author-rating">
-											<span class="starRating">
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star-o"></i>
-											</span> &nbsp;|&nbsp; Atkia
-										</div>
-										<div class="genresArea">
-											<strong>Genres</strong>&nbsp; Drama, Love Story
-										</div>
-									</div>
-								</a>
-							</div>
-						</div>
+						@endforeach
+						
 					</div>
 				</div>
 			</div>
@@ -194,105 +87,49 @@ Session::forget('user_name');
 		<!-- Most popular -->
 		<section class="mostPopular section-padding">
 			<div class="container">
-				<div class="sectionHeading">Most Popular</div>
+				<div class="sectionHeading">Most Rated</div>
 				<div class="bookListing">
-					<div class="row">
+					<div class="recent-scroll">
+						@foreach($mostRateds as $mostRated)
 						<div class="col col-md-3">
 							<div class="bookBox">
-								<a href="#">
+								<a href="/bookXchange/dashboard/viewbook/{{$mostRated->id}}">
 									<div class="bookCoverImg">
-										<img src="assets/images/book-21.png">
+										<img src="{{asset('/upload/books/'.$mostRated->book_image)}}" style="width=200px">
 									</div>
 									<div class="book-Short-Detail">
-										<h2>The Dead Compendium Volume 3</h2>
+										<h2>{{$mostRated->book_name}}</h2>
 										<div class="author-rating">
 											<span class="starRating">
+												@php 
+												$overRating = 0;
+												@endphp
+												@for ($i = 1; $i <= 5; $i++)
+												@if ($i<=$mostRated->book_rating)
 												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star-o"></i>
-											</span> &nbsp;|&nbsp; Atkia
+												@else
+													@if (($i-$mostRated->book_rating) <= 0.5 && ($i-$mostRated->book_rating) >= 0.1)
+														<i class="fa fa-star-half"></i>
+														@php
+														$overRating = $i;
+														@endphp
+													@endif
+													@if ($i > $overRating)
+													<i class="fa fa-star-o"></i>
+													@endif
+												@endif
+												@endfor
+											</span> &nbsp;|&nbsp; {{$mostRated->author}}
 										</div>
 										<div class="genresArea">
-											<strong>Genres</strong>&nbsp; Drama, Love Story
+											<strong>Genres</strong>&nbsp;{{$mostRated->genre_name}}
 										</div>
 									</div>
 								</a>
 							</div>
 						</div>
-						<div class="col col-md-3">
-							<div class="bookBox">
-								<a href="#">
-									<div class="bookCoverImg">
-										<img src="assets/images/book-22.png">
-									</div>
-									<div class="book-Short-Detail">
-										<h2>See me</h2>
-										<div class="author-rating">
-											<span class="starRating">
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star-o"></i>
-											</span> &nbsp;|&nbsp; Saifudin A.
-										</div>
-										<div class="genresArea">
-											<strong>Genres</strong>&nbsp; Drama, Love Story
-										</div>
-									</div>
-								</a>
-							</div>
-						</div>
-						<div class="col col-md-3">
-							<div class="bookBox">
-								<a href="#">
-									<div class="bookCoverImg">
-										<img src="assets/images/book-23.png">
-									</div>
-									<div class="book-Short-Detail">
-										<h2>The Dead Compendium Volume 3</h2>
-										<div class="author-rating">
-											<span class="starRating">
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star-o"></i>
-											</span> &nbsp;|&nbsp; Atkia
-										</div>
-										<div class="genresArea">
-											<strong>Genres</strong>&nbsp; Drama, Love Story
-										</div>
-									</div>
-								</a>
-							</div>
-						</div>
-						<div class="col col-md-3">
-							<div class="bookBox">
-								<a href="#">
-									<div class="bookCoverImg">
-										<img src="assets/images/book-24.png">
-									</div>
-									<div class="book-Short-Detail">
-										<h2>The Dead Compendium Volume 3</h2>
-										<div class="author-rating">
-											<span class="starRating">
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star-o"></i>
-											</span> &nbsp;|&nbsp; Atkia
-										</div>
-										<div class="genresArea">
-											<strong>Genres</strong>&nbsp; Drama, Love Story
-										</div>
-									</div>
-								</a>
-							</div>
-						</div>
+						@endforeach
+						
 					</div>
 				</div>
 			</div>
@@ -302,335 +139,70 @@ Session::forget('user_name');
 		<section class="browseLibrary section-padding" style="background: url('{{asset('web_asset/assets/images/banner-01.jpg')}}');">
 			<div class="container">
 				<h2>Browse Through Our Complete Library</h2>
-				<a href="#"> BROWSE COLLECTION</a>
+				<a href="/bookXchange/dashboard/searchbook"> BROWSE COLLECTION</a>
 			</div>
 		</section>
 		<!-- Browse Library -->
-		<!--Fiction -->
-		<section class="mostPopular section-padding">
-			<div class="container">
-				<div class="sectionHeading">Fiction</div>
-				<div class="bookListing">
-					<div class="row">
-						<div class="col col-md-3">
-							<div class="bookBox">
-								<a href="#">
-									<div class="bookCoverImg">
-										<img src="assets/images/book-21.png">
-									</div>
-									<div class="book-Short-Detail">
-										<h2>The Dead Compendium Volume 3</h2>
-										<div class="author-rating">
-											<span class="starRating">
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star-o"></i>
-											</span> &nbsp;|&nbsp; Atkia
-										</div>
-										<div class="genresArea">
-											<strong>Genres</strong>&nbsp; Fiction
-										</div>
-									</div>
-								</a>
-							</div>
-						</div>
-						<div class="col col-md-3">
-							<div class="bookBox">
-								<a href="#">
-									<div class="bookCoverImg">
-										<img src="assets/images/book-22.png">
-									</div>
-									<div class="book-Short-Detail">
-										<h2>See me</h2>
-										<div class="author-rating">
-											<span class="starRating">
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star-o"></i>
-											</span> &nbsp;|&nbsp; Saifudin A.
-										</div>
-										<div class="genresArea">
-											<strong>Genres</strong>&nbsp; Fiction
-										</div>
-									</div>
-								</a>
-							</div>
-						</div>
-						<div class="col col-md-3">
-							<div class="bookBox">
-								<a href="#">
-									<div class="bookCoverImg">
-										<img src="assets/images/book-23.png">
-									</div>
-									<div class="book-Short-Detail">
-										<h2>The Dead Compendium Volume 3</h2>
-										<div class="author-rating">
-											<span class="starRating">
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star-o"></i>
-											</span> &nbsp;|&nbsp; Atkia
-										</div>
-										<div class="genresArea">
-											<strong>Genres</strong>&nbsp; Fiction
-										</div>
-									</div>
-								</a>
-							</div>
-						</div>
-						<div class="col col-md-3">
-							<div class="bookBox">
-								<a href="#">
-									<div class="bookCoverImg">
-										<img src="assets/images/book-24.png">
-									</div>
-									<div class="book-Short-Detail">
-										<h2>The Dead Compendium Volume 3</h2>
-										<div class="author-rating">
-											<span class="starRating">
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star-o"></i>
-											</span> &nbsp;|&nbsp; Atkia
-										</div>
-										<div class="genresArea">
-											<strong>Genres</strong>&nbsp; Fiction
-										</div>
-									</div>
-								</a>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
-		<!-- /Fiction -->
-		<!-- Horror -->
-		<section class="mostPopular section-padding">
-			<div class="container">
-				<div class="sectionHeading">Horror</div>
-				<div class="bookListing">
-					<div class="row">
-						<div class="col col-md-3">
-							<div class="bookBox">
-								<a href="#">
-									<div class="bookCoverImg">
-										<img src="assets/images/book-21.png">
-									</div>
-									<div class="book-Short-Detail">
-										<h2>The Dead Compendium Volume 3</h2>
-										<div class="author-rating">
-											<span class="starRating">
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star-o"></i>
-											</span> &nbsp;|&nbsp; Atkia
-										</div>
-										<div class="genresArea">
-											<strong>Genres</strong>&nbsp; Horror
-										</div>
-									</div>
-								</a>
-							</div>
-						</div>
-						<div class="col col-md-3">
-							<div class="bookBox">
-								<a href="#">
-									<div class="bookCoverImg">
-										<img src="assets/images/book-22.png">
-									</div>
-									<div class="book-Short-Detail">
-										<h2>See me</h2>
-										<div class="author-rating">
-											<span class="starRating">
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star-o"></i>
-											</span> &nbsp;|&nbsp; Saifudin A.
-										</div>
-										<div class="genresArea">
-											<strong>Genres</strong>&nbsp; Horror
-										</div>
-									</div>
-								</a>
-							</div>
-						</div>
-						<div class="col col-md-3">
-							<div class="bookBox">
-								<a href="#">
-									<div class="bookCoverImg">
-										<img src="assets/images/book-23.png">
-									</div>
-									<div class="book-Short-Detail">
-										<h2>The Dead Compendium Volume 3</h2>
-										<div class="author-rating">
-											<span class="starRating">
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star-o"></i>
-											</span> &nbsp;|&nbsp; Atkia
-										</div>
-										<div class="genresArea">
-											<strong>Genres</strong>&nbsp; Horror
-										</div>
-									</div>
-								</a>
-							</div>
-						</div>
-						<div class="col col-md-3">
-							<div class="bookBox">
-								<a href="#">
-									<div class="bookCoverImg">
-										<img src="assets/images/book-24.png">
-									</div>
-									<div class="book-Short-Detail">
-										<h2>The Dead Compendium Volume 3</h2>
-										<div class="author-rating">
-											<span class="starRating">
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star-o"></i>
-											</span> &nbsp;|&nbsp; Atkia
-										</div>
-										<div class="genresArea">
-											<strong>Genres</strong>&nbsp; Horror
-										</div>
-									</div>
-								</a>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
-		<!-- /Horror -->
-		<!-- History -->
-		<section class="mostPopular section-padding">
-			<div class="container">
-				<div class="sectionHeading">History</div>
-				<div class="bookListing">
-					<div class="row">
-						<div class="col col-md-3">
-							<div class="bookBox">
-								<a href="#">
-									<div class="bookCoverImg">
-										<img src="assets/images/book-21.png">
-									</div>
-									<div class="book-Short-Detail">
-										<h2>The Dead Compendium Volume 3</h2>
-										<div class="author-rating">
-											<span class="starRating">
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star-o"></i>
-											</span> &nbsp;|&nbsp; Atkia
-										</div>
-										<div class="genresArea">
-											<strong>Genres</strong>&nbsp; History
-										</div>
-									</div>
-								</a>
-							</div>
-						</div>
-						<div class="col col-md-3">
-							<div class="bookBox">
-								<a href="#">
-									<div class="bookCoverImg">
-										<img src="assets/images/book-22.png">
-									</div>
-									<div class="book-Short-Detail">
-										<h2>See me</h2>
-										<div class="author-rating">
-											<span class="starRating">
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star-o"></i>
-											</span> &nbsp;|&nbsp; Saifudin A.
-										</div>
-										<div class="genresArea">
-											<strong>Genres</strong>&nbsp; History
-										</div>
-									</div>
-								</a>
-							</div>
-						</div>
-						<div class="col col-md-3">
-							<div class="bookBox">
-								<a href="#">
-									<div class="bookCoverImg">
-										<img src="assets/images/book-23.png">
-									</div>
-									<div class="book-Short-Detail">
-										<h2>The Dead Compendium Volume 3</h2>
-										<div class="author-rating">
-											<span class="starRating">
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star-o"></i>
-											</span> &nbsp;|&nbsp; Atkia
-										</div>
-										<div class="genresArea">
-											<strong>Genres</strong>&nbsp; History
-										</div>
-									</div>
-								</a>
-							</div>
-						</div>
-						<div class="col col-md-3">
-							<div class="bookBox">
-								<a href="#">
-									<div class="bookCoverImg">
-										<img src="assets/images/book-24.png">
-									</div>
-									<div class="book-Short-Detail">
-										<h2>The Dead Compendium Volume 3</h2>
-										<div class="author-rating">
-											<span class="starRating">
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star-o"></i>
-											</span> &nbsp;|&nbsp; Atkia
-										</div>
-										<div class="genresArea">
-											<strong>Genres</strong>&nbsp; History
-										</div>
-									</div>
-								</a>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
-		<!-- /History -->
 
+		
+		<!--unique Genre -->
+		@foreach ($uniqueBookGenre as $uniqueGenre)
+		<section class="mostPopular section-padding All-category">
+			<div class="container">
+				<div class="sectionHeading">{{$uniqueGenre->genre_name}}</div>
+				<div class="bookListing">
+					<div class="recent-scroll">
+						@foreach ($recentBooks as $recentBook)
+						@if ($uniqueGenre->genre_name == $recentBook->genre_name)
+						<div class="col col-md-3">
+							<div class="bookBox">
+								<a href="/bookXchange/dashboard/viewbook/{{$recentBook->id}}">
+									<div class="bookCoverImg">
+										<img src="{{asset('/upload/books/'.$recentBook->book_image)}}">
+									</div>
+									<div class="book-Short-Detail">
+										<h2>{{$recentBook->book_name}}</h2>
+										<div class="author-rating">
+											<span class="starRating">
+												@php 
+												$overRating = 0;
+												@endphp
+												@for ($i = 1; $i <= 5; $i++)
+												@if ($i<=$recentBook->book_rating)
+												<i class="fa fa-star"></i>
+												@else
+													@if (($i-$recentBook->book_rating) <= 0.5 && ($i-$recentBook->book_rating) >= 0.1)
+														<i class="fa fa-star-half"></i>
+														@php
+														$overRating = $i;
+														@endphp
+													@endif
+													@if ($i > $overRating)
+													<i class="fa fa-star-o"></i>
+													@endif
+												@endif
+												@endfor
+											</span> &nbsp;|&nbsp; {{$recentBook->author}}
+										</div>
+										<div class="genresArea">
+											<strong>Genres</strong>&nbsp;{{$recentBook->genre_name}}
+										</div>
+									</div>
+								</a>
+							</div>
+						</div>
+						@endif
+						@endforeach
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- /unique genre -->
+		@endforeach
+		@if (sizeof($uniqueBookGenre) > 1)
 		<div class="p-5 text-center">
-			<a href="#" class="btn loadBtn">Load More</a>
+			<a class="btn loadBtn" id="loadMore">Load More</a>
 		</div>
-
+		@endif
 
 		

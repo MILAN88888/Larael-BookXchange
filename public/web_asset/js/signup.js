@@ -43,7 +43,7 @@ $(document).ready(function () {
             lastname: {
                 minlength: 3,
             },
-           "phone[main]": {
+           phone: {
                 required: true,
                 number: true,
                 maxlength: 10,
@@ -59,12 +59,6 @@ $(document).ready(function () {
             passwordConfirmation:{
                 required:true,
                 equalTo:"#password",
-            },
-            'lang[]':{
-                required:true,
-            },
-            'genre[]':{
-                required:true,
             }
         }, messages: {
 
@@ -75,7 +69,7 @@ $(document).ready(function () {
             lastname: {
                 minlength: "Please enter at least 4 character !",
             },
-            "phone[main]": {
+            phone: {
                 required: "Please enter Phone Number !",
                 number: "please enter umber format !",
                 maxlength: "Please enter 10 digit Phone Number !",
@@ -91,29 +85,7 @@ $(document).ready(function () {
             passwordConfirmation:{
                 required:"Please enter confirm Password !",
                 equalTo:"Confirm password not match !",
-            },
-            'lang[]':{
-                required:"Please choose atleast one langauage!!",
-            },
-            'genre[]':{
-                required:"Please choose atleast one genre!!",
             }
         }
     })
 });
-
-$(document).ready(function(){
-	const phone = document.querySelector("#phone");
-	var ini = window.intlTelInput(phone, {
-		separateDialCode: true,
-		preferredCountries: ["in", "co", "us", "de", "np"],
-		hiddenInput: "full",
-		utilsScript:
-			"templates/build/js/utils.js",
-	});
-	$('form').submit(function () {
-
-		var full_number = ini.getNumber();
-		$("input[name='phone[main]'").val(full_number);
-	})
-})

@@ -10,25 +10,25 @@
             </li>
 
             <li>
-                <a href="/bookXchange/mybook" class="nav-link">
+                <a href="/bookXchange/myaccount/mybook" class="nav-link">
                     <i class="fa fa-book"></i>
                     My Books
                 </a>
             </li>
             <li>
-                <a href="lendingHistory.php" class="nav-link link-dark">
+                <a href="/bookXchange/myaccount/lendingHistory" class="nav-link link-dark">
                     <i class="fa fa-history"></i>
                     Lending History
                 </a>
             </li>
             <li>
-                <a href="/bookXchange/borrows" class="nav-link link-dark">
+                <a href="/bookXchange/myaccount/borrows" class="nav-link link-dark">
                     <i class="fa fa-book"></i>
                     Borrows
                 </a>
             </li>
             <li>
-                <a href="wishList.php" class="nav-link link-dark">
+                <a href="/bookXchange/myaccount/wishlist" class="nav-link link-dark">
                     <i class="fa fa-heart"></i>
                     Wish List
                 </a>

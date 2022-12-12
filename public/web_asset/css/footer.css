@@ -29,3 +29,6 @@
 .manual-error {
     display: none;
 }
+#reset-password-form {
+    display: none;
+}
