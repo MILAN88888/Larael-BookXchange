@@ -67,4 +67,10 @@ Route::group(['middleware' => 'user_auth'], function() {
     Route::get('/bookXchange/dashboard/myaccount/editbook/{id}', [BookController::class, 'getEditBook']);
     //get edit book
     Route::post('/bookXchange/dashboard/myaccount/updateeditbook', [BookController::class, 'updateEditBook'])->name('BookController.updateeditbook');
+    //reject book request
+    Route::post('/bookXchange/dashboard/rejectrequest', [BookController::class, 'getRejectRequest'])->name('BookController.requestreject');
+    //insertUserRating
+    Route::post('/bookXchange/dashboard/userrating', [BookController::class, 'insertUserRating'])->name('BookController.userrating');
+    //grant request
+    Route::post('/bookXchange/dashboard/bookrequestgrant', [BookController::class, 'updateGrantRequest'])->name('BookController.grantrequest');
 });

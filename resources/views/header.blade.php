@@ -10,6 +10,7 @@
 		<link href="{{asset('web_asset/assets/css/style.css')}}" rel="stylesheet">
 		<link href="{{asset('web_asset/css/addbook.css')}}" rel="stylesheet">
 		<link href="{{asset('web_asset/css/about.css')}}" rel="stylesheet">
+		<link href="{{asset('web_asset/css/request.css')}}" rel="stylesheet">
 		<link href="{{asset('web_asset/css/footer.css')}}" rel="stylesheet">
 		<link href="{{asset('web_asset/css/jquery.dataTables.min.css')}}" rel="stylesheet">
 		<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>

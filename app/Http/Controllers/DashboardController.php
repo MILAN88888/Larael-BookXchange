@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Register;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
     public function dashboard() {
-
- 
+        
         $recentBooks =app('App\Http\Controllers\BookController')->getRecentBook();
 
         $mostRateds = app('App\Http\Controllers\BookController')->getMostRated();

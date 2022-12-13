@@ -105,7 +105,20 @@ class BookController extends Controller
      */
     public function bookRequest()
     {
-        return view('header') . view('bookrequest') . view('footer');
+        $receivedRequest = DB::table('request')
+            ->select('request.*', 'register.user_name as requester_name','books.book_name')
+            ->join('books', 'books.id', 'request.book_id')
+            ->join('register', 'register.id', 'request.owner_id')
+            ->where('request.owner_id', session('user_id'))
+            ->get();
+        $sentRequest = DB::table('request')
+            ->select('request.*', 'register.user_name as owner_name','books.book_name')
+            ->join('books', 'books.id', 'request.book_id')
+            ->join('register', 'register.id', 'request.requester_id')
+            ->where('request.requester_id', session('user_id'))
+            ->get();
+
+        return view('header') . view('bookrequest', ['allreceivedrequest' => $receivedRequest, 'allsentrequest' => $sentRequest]) . view('footer');
     }
     /**
      * Function lending History
@@ -307,7 +320,7 @@ class BookController extends Controller
             }
         }
         if (!empty($bookName) && !empty($bookGenre) && !empty($bookAuthor) && !empty($bookPublisher) && !empty($bookEdition) && !empty($bookIsbn) && !empty($bookLang) && !empty($bookCondition) && !empty($bookDes) && !empty($bookRating)) {
-            $result = DB::table('books')->where(['id' => $bookId])->update(['book_name' => $bookName, 'book_image' => $newBookImage, 'genre_id' => $bookGenre, 'author' => $bookAuthor, 'edition' => $bookEdition, 'publisher' => $bookPublisher, 'description' => $bookDes, 'book_rating' => $bookRating, 'book_lang' => $bookLang, 'isbn' => $bookIsbn, 'book_condition'=>$bookCondition]);
+            $result = DB::table('books')->where(['id' => $bookId])->update(['book_name' => $bookName, 'book_image' => $newBookImage, 'genre_id' => $bookGenre, 'author' => $bookAuthor, 'edition' => $bookEdition, 'publisher' => $bookPublisher, 'description' => $bookDes, 'book_rating' => $bookRating, 'book_lang' => $bookLang, 'isbn' => $bookIsbn, 'book_condition' => $bookCondition]);
             if ($result) {
                 $request->session()->flash('editmsg', "$bookName is updated successfully");
                 return redirect('/bookXchange/myaccount/mybook');
@@ -317,7 +330,7 @@ class BookController extends Controller
             }
         } else {
             $request->session()->flash('editerror', 'Please Filled the all field Carefully!!');
-            return redirect('/bookXchange/dashboard/myaccount/editbook/'.$bookId);
+            return redirect('/bookXchange/dashboard/myaccount/editbook/' . $bookId);
         }
     }
 
@@ -325,14 +338,78 @@ class BookController extends Controller
      * Function getDeleteWishList
      * 
      */
-    public function getDeleteWishList($id) {
-        $res = DB::table('wish_list')->where(['id'=>$id])->delete();
-        if($res) {
+    public function getDeleteWishList($id)
+    {
+        $res = DB::table('wish_list')->where(['id' => $id])->delete();
+        if ($res) {
             session()->flash('wishmsg', 'Deleted Successfully!!');
             return redirect('/bookXchange/myaccount/wishlist');
         } else {
             session()->flash('wishmsg', 'Delete failed!!');
             return redirect('/bookXchange/myaccount/wishlist');
         }
+    }
+
+    /**
+     * Function getRejectRequest
+     * 
+     */
+    public function getRejectRequest(Request $request)
+    {
+        $bookStatus = 4;
+        $requestId = $request->post('requestid');
+        $reason = $request->post('reason');
+        $res = DB::table('request')
+            ->where('id', $requestId)
+            ->update(['status'=>$bookStatus, 'reason'=>$reason]);
+        if($res) {
+            session()->flash('rejectmsg', "You have rejected book request !!");
+        } else {
+            session()->flash('rejectmsg', 'Your rejection is failed!!');
+        }
+        return redirect('/bookXchange/bookrequest');
+    }
+
+    /**
+     * Function updateGrandRequest
+     * 
+     */
+    public function updateGrantRequest(Request $request)
+    {
+        $requestId = $request->post('requestid');
+        $bookStatus = 1;
+        $res = DB::table('request')
+            ->where('id', $requestId)
+            ->update(['status'=>$bookStatus]);
+        if($res) {
+            session()->flash('rejectmsg', "You have granded book request !!");
+        } else {
+            session()->flash('rejectmsg', 'Your grand is failed!!');
+        }
+        return redirect('/bookXchange/bookrequest');
+
+    }
+    /**
+     * Function insertUserRating
+     * 
+     */
+    public function insertUserRating(Request $request) 
+    {
+        $requestId = $request->post('requestid');
+        $userId = $request->post('requesterid');
+        $userRating = $request->post('requester_rating');
+        $ratedDate = date('y-m-d');
+
+        $res = DB::table('request')
+        ->where('id', $requestId)->update(['status'=>3]);
+
+        DB::table('users_rating')
+            ->insert(['user_id'=>$userId, 'rating'=>$userRating, 'rated_date'=>$ratedDate]);
+        if($res) {
+            session()->flash('rejectmsg', "You have granted the return!!");
+        } else {
+            session()->flash('rejectmsg', 'Your Grant is failed!!');
+        }
+        return redirect('/bookXchange/bookrequest');
     }
 }

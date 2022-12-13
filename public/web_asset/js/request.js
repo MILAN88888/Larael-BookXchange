@@ -10,18 +10,6 @@ function grant() {
     }
 }
 $(document).ready(function(){
-     
-    $('#request-closer').click(function () {
-        $(document).find('#request-reject-div').hide()
-        $(document).find('#reject-form')[0].reset();
-
-    })
-    
-    $('#grand-closer').click(function () {
-        $(document).find('#return-grand-div').hide()
-        $(document).find('#returngrand-form')[0].reset();
-
-    })
     $('#returngrand-form').validate({
         rules: {
             requester_rating: {

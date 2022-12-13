@@ -25,6 +25,7 @@
 		<script src="{{asset('web_asset/js/addbook.js')}}"></script>
 		<script src="{{asset('web_asset/js/profile.js')}}"></script>
 		<script src="{{asset('web_asset/js/signup.js')}}"></script>
+		<script src="{{asset('web_asset/js/request.js')}}"></script>
 		<script src="{{asset('web_asset/js/datatable.js')}}"></script>
         <script src="{{asset('web_asset/js/footer.js')}}"></script>
 	</body>
