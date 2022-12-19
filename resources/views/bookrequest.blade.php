@@ -12,9 +12,8 @@
 <section class="request">
     <div class="sent-request-div">
         <h4 class="mt-4">Sent Request</h4>
-        @if (sizeof($allsentrequest) == 0) {
+        @if (sizeof($allsentrequest) == 0) 
             <p class="text-info">No Send Request</p>
-        }
         @endif
         @foreach ($allsentrequest as $sentrequest)
         <div class="sent-request-item">
@@ -36,9 +35,9 @@
     </div>    
     <div class="recieved-request-div">
         <h4 class="mt-4">Received Request</h4>
-        @if (sizeof($allreceivedrequest) == 0) {
+        @if (sizeof($allreceivedrequest) == 0)
             <p class="text-info">No Send Request</p>
-        }
+        
         @endif
         @foreach ($allreceivedrequest as $receivedrequest)
         <div class="sent-request-item">
@@ -48,6 +47,7 @@
                 onsubmit="return confirm('Do you really want to comfirm request?');" style="display:inline-block">
                 @csrf
                 <input type="text" value="{{$receivedrequest->id}}" name="requestid" hidden>
+                <input type="text" value="{{$receivedrequest->book_id}}" name="bookid" hidden>
                 <button type="submit" class="btn btn-sm btn-success" name="requestgrand">Grant</button>
             </form>
             <button onclick="reject()" class="btn btn-sm btn-danger">Reject</button>
@@ -75,6 +75,7 @@
                 <form id="returngrand-form" action="{{route('BookController.userrating')}}" method="post">
                     @csrf
                     <input type="text" value="{{$receivedrequest->id}}" name="requestid" hidden>
+                    <input type="text" value="{{$receivedrequest->book_id}}" name="bookid" hidden>
                     <input type="text" value="{{$receivedrequest->requester_id}}" name="requesterid" hidden>
                     <select name="requester_rating" class="requester_rating">
                         <option>-1</option>

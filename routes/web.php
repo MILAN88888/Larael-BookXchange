@@ -73,4 +73,10 @@ Route::group(['middleware' => 'user_auth'], function() {
     Route::post('/bookXchange/dashboard/userrating', [BookController::class, 'insertUserRating'])->name('BookController.userrating');
     //grant request
     Route::post('/bookXchange/dashboard/bookrequestgrant', [BookController::class, 'updateGrantRequest'])->name('BookController.grantrequest');
+    //add to wishlist
+    Route::post('/bookXchange/dashboard/viewbook/addwishlist',[BookController::class, 'addWishList'])->name('BookController.addwishlist');
+    // request book
+    Route::post('/bookXchange/viewbook/requestbook', [Bookcontroller::class , 'requestbook'])->name('BookController.requestbook');
+    // return book
+    Route::post('/bookXchange/viewbook/returnbook', [Bookcontroller::class , 'returnbook'])->name('BookController.returnbook');
 });

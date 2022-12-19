@@ -108,13 +108,13 @@ class BookController extends Controller
         $receivedRequest = DB::table('request')
             ->select('request.*', 'register.user_name as requester_name','books.book_name')
             ->join('books', 'books.id', 'request.book_id')
-            ->join('register', 'register.id', 'request.owner_id')
+            ->join('register', 'register.id', 'request.requester_id')
             ->where('request.owner_id', session('user_id'))
             ->get();
         $sentRequest = DB::table('request')
             ->select('request.*', 'register.user_name as owner_name','books.book_name')
             ->join('books', 'books.id', 'request.book_id')
-            ->join('register', 'register.id', 'request.requester_id')
+            ->join('register', 'register.id', 'books.owner_id')
             ->where('request.requester_id', session('user_id'))
             ->get();
 
@@ -137,6 +137,23 @@ class BookController extends Controller
     {
         $borrows = DB::table('request')->select('request.*', 'register.user_name', 'books.book_image', 'books.book_name')->join('register', 'register.id', 'request.requester_id')->join('books', 'books.id', 'request.book_id')->where(['request.requester_id' => session('user_id')])->get();
         return view('header') . view('borrows', ['borrows' => $borrows]) . view('footer');
+    }
+
+    /**
+     * Add wishlist
+     * 
+     */
+    public function addWishList(Request $request)
+    {
+        $bookId = $request->post('book_id');
+        $res = DB::table('wish_list')
+            ->insert(['book_id'=>$bookId, 'user_id'=>session('user_id')]);
+        if($res) {
+            session()->flash('viewmsg', 'Book added to wish List');  
+        } else {
+            session()->flash('viewmsg', 'failed!!');
+        }
+        return redirect('bookXchange/dashboard/viewbook/'.$bookId);
     }
     /**
      * Function lending wishlist
@@ -202,8 +219,11 @@ class BookController extends Controller
      */
     public function getBookDetailById(int $id): object
     {
-        $bookDetail = DB::table('books')->where([
-            'id' => $id
+        $bookDetail = DB::table('books')
+            ->select('books.*','wish_list.id as wishid')
+            ->leftJoin('wish_list','books.id','wish_list.book_id')
+            ->where([
+            'books.id' => $id
         ])->first();
         return $bookDetail;
     }
@@ -217,7 +237,15 @@ class BookController extends Controller
      */
     public function getBooksWithSameIsbn(string $bookIsbn): object
     {
-        $booksWithSameIsbn = DB::table('books')->select('books.*', 'register.user_name', 'register.user_address')->join('register', 'books.owner_id', 'register.id')->where(['isbn' => $bookIsbn])->get();
+        $booksWithSameIsbn = DB::table('books')
+            ->select('books.*', 'register.user_name', 'register.user_address','request.status', 'request.id as request_id' )
+            ->leftJoin('request', function($join) {
+                $join->on('request.book_id','=','books.id')->where(['request.requester_id'=>session('user_id')]);
+            })
+            ->join('register', 'books.owner_id', 'register.id')
+            ->where(['isbn' => $bookIsbn])
+            ->get();
+            // dd($booksWithSameIsbn);
         return $booksWithSameIsbn;
     }
 
@@ -377,7 +405,12 @@ class BookController extends Controller
     public function updateGrantRequest(Request $request)
     {
         $requestId = $request->post('requestid');
+        $bookId = $request->post('bookid');
         $bookStatus = 1;
+        $getStatus = DB::table('books')->select('rq_status')->where('id', $bookId)->first();
+
+        if($getStatus->rq_status === 0) {
+        DB::table('books')->where('id',$bookId)->update(['rq_status'=>1]);
         $res = DB::table('request')
             ->where('id', $requestId)
             ->update(['status'=>$bookStatus]);
@@ -386,6 +419,9 @@ class BookController extends Controller
         } else {
             session()->flash('rejectmsg', 'Your grand is failed!!');
         }
+    } else {
+        session()->flash('rejectmsg', 'You have already issued for someone. wait till return!!');
+    }
         return redirect('/bookXchange/bookrequest');
 
     }
@@ -398,11 +434,13 @@ class BookController extends Controller
         $requestId = $request->post('requestid');
         $userId = $request->post('requesterid');
         $userRating = $request->post('requester_rating');
+        $bookId = $request->post('bookid');
         $ratedDate = date('y-m-d');
 
         $res = DB::table('request')
         ->where('id', $requestId)->update(['status'=>3]);
-
+        DB::table('books')
+        ->where('id', $bookId)->update(['rq_status'=>0]);
         DB::table('users_rating')
             ->insert(['user_id'=>$userId, 'rating'=>$userRating, 'rated_date'=>$ratedDate]);
         if($res) {
@@ -411,5 +449,53 @@ class BookController extends Controller
             session()->flash('rejectmsg', 'Your Grant is failed!!');
         }
         return redirect('/bookXchange/bookrequest');
+    }
+    /**
+     * Function Request book
+     */
+    public function requestbook(Request $request)
+    {
+        $bookId = $request->post('book_id');
+        $ownerId = $request->post('owner_id');
+        $requesterId = session('user_id');
+        $isExist = DB::table('request')->where(['book_id'=>$bookId, 'owner_id'=>$ownerId, 'requester_id'=>$requesterId])->exists(); 
+        if($isExist) {
+            $res = DB::table('request')->where(['book_id'=>$bookId, 'owner_id'=>$ownerId, 'requester_id'=>$requesterId])->update(['status'=>0]);
+            if($res) {
+                session('viewmsg', 'Requested sent!!');
+            } else {
+                session('viewmsg', 'Requested Failed!!');
+            }
+        } else {
+            
+            $requestDate = date('Y-m-d');
+            $issuedDate = date('2022-01-01');
+            $returnDate =  date('2022-01-01');
+            $res = DB::table('request')->insert(['book_id'=>$bookId, 'owner_id'=>$ownerId, 'requester_id'=>$requesterId, 'status'=>0, 'rqst_date'=>$requestDate, 'issued_date'=>$issuedDate, 'return_date'=>$returnDate]);
+            if($res) {
+                session('viewmsg', 'Requested sent!!');
+            } else {
+                session('viewmsg', 'Requested Failed!!');
+            }
+        }
+        return redirect ('bookXchange/dashboard/viewbook/'.$bookId);
+    }
+    /**
+     * Function returnbook
+     */
+    public function returnbook(Request $request)
+    {
+        $bookId = $request->post('book_id');
+        $requestId = $request->post('request_id');
+        DB::table('books')->where('id',$bookId)->update(['rq_status'=>2]);
+        $res = DB::table('request')
+            ->where('id', $requestId)
+            ->update(['status'=>2]);
+        if($res) {
+            session()->flash('rejectmsg', "You have sent book return request !!");
+        } else {
+            session()->flash('rejectmsg', 'Your return request is failed!!');
+        }
+        return redirect('/bookXchange/dashboard/viewbook/'.$bookId);
     }
 }
